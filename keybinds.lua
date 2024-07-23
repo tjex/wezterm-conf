@@ -9,13 +9,13 @@ local M = {}
 require("events")
 
 function M.apply(config)
-	config.leader = { key = "w", mods = "ALT", timeout_milliseconds = 700 }
+	config.leader = { key = "a", mods = "ALT", timeout_milliseconds = 800 }
 
 	-- LEADER KEYBINDS
 	config.keys = {
-		-- Send "CTRL-w" to the terminal when pressing <ALT-w, CTRL-w>
+		-- Send "CTRL-a" to the terminal when pressing <ALT-a, CTRL-a>
 		{
-			key = "w",
+			key = "a",
 			mods = "LEADER|CTRL",
 			action = act.SendKey({ key = "o", mods = "CTRL" }),
 		},
@@ -32,39 +32,40 @@ function M.apply(config)
 			action = act.ActivateCopyMode,
 		},
 		{
-			key = "s",
+			-- c for "capture"
+			key = "c",
 			mods = "LEADER",
 			action = act.EmitEvent("trigger-nvim-with-scrollback"),
 		},
-		{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
-
+		-- PANES
+		{
+			key = "x",
+			mods = "LEADER",
+			action = act.CloseCurrentPane({ confirm = false }),
+		},
+		{
+			key = "v",
+			mods = "LEADER",
+			action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+		},
+		{
+			key = "s",
+			mods = "LEADER",
+			action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+		},
 		-- TABS
-		{
-			key = "t",
-			mods = "LEADER",
-			action = act.ActivateKeyTable({
-				name = "tabs",
-				one_shot = false,
-			}),
-		},
-		{
-			key = "l",
-			mods = "LEADER",
-			action = act.ActivateLastTab,
-		},
 		{
 			key = "r",
 			mods = "LEADER",
 			action = act.PromptInputLine({
 				description = "Enter new name for tab",
-				action = wezterm.action_callback(function(window, pane, line)
+				action = wezterm.action_callback(function(window, _, line)
 					if line then
 						window:active_tab():set_title(line)
 					end
 				end),
 			}),
 		},
-
 		-- WORKSPACES
 		{
 			key = "k",
@@ -74,7 +75,7 @@ function M.apply(config)
 				func.kill_workspace(window, pane, workspace)
 			end),
 		},
-		-- PANES
+		-- KEY TABLES
 		{
 			key = "p",
 			mods = "LEADER",
@@ -84,31 +85,20 @@ function M.apply(config)
 			}),
 		},
 		{
-			key = "x",
+			key = "t",
 			mods = "LEADER",
-			action = act.CloseCurrentPane({ confirm = true }),
-		},
-		{
-			key = "%",
-			mods = "LEADER",
-			action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+			action = act.ActivateKeyTable({
+				name = "tabs",
+				one_shot = false,
+			}),
 		},
 
 		-- "SUPER" (cmd on mac). Mainly for launching and 'generic' operations.
-		-- WINDOWS / TABS
-		{ key = "1", mods = "SUPER", action = act.ActivateTab(0) },
-		{ key = "2", mods = "SUPER", action = act.ActivateTab(1) },
-		{ key = "3", mods = "SUPER", action = act.ActivateTab(2) },
-		{ key = "4", mods = "SUPER", action = act.ActivateTab(3) },
-		{ key = "5", mods = "SUPER", action = act.ActivateTab(4) },
-		{ key = "6", mods = "SUPER", action = act.ActivateTab(5) },
-		{ key = "7", mods = "SUPER", action = act.ActivateTab(6) },
-		{ key = "8", mods = "SUPER", action = act.ActivateTab(7) },
-		{ key = "9", mods = "SUPER", action = act.ActivateTab(8) },
+		-- WINDOWS / TABS / PANES
 		{
 			key = "w",
 			mods = "SUPER",
-			action = wezterm.action.CloseCurrentTab({ confirm = false }),
+			action = wezterm.action.CloseCurrentTab({ confirm = true }),
 		},
 		-- LAUNCHERS
 		{
@@ -127,21 +117,29 @@ function M.apply(config)
 			action = act.ShowLauncherArgs({ flags = "FUZZY|LAUNCH_MENU_ITEMS" }),
 		},
 
-		-- ALT KEYBINDS
-		-- PANES
+		-- Prompt for a name to use for a new workspace and switch to it.
 		{
-			key = "h",
-			mods = "ALT",
-			action = act.ActivatePaneDirection("Prev"),
+			key = "n",
+			mods = "SUPER",
+			action = act.PromptInputLine({
+				description = wezterm.format({
+					{ Attribute = { Intensity = "Bold" } },
+					{ Text = "Enter name for new workspace" },
+				}),
+				action = wezterm.action_callback(function(window, pane, input)
+					-- line will be `nil` if they hit escape without entering anything
+					-- An empty string if they just hit enter
+					-- Or the actual line of text they wrote
+					if input then
+						func.switch_workspace(window, pane, input)
+					end
+				end),
+			}),
 		},
-		{
-			key = "l",
-			mods = "ALT",
-			action = act.ActivatePaneDirection("Next"),
-		},
+		-- ALT Keybinds
 		-- WORKSPACES
 		{
-			key = "l",
+			key = "s",
 			mods = "ALT",
 			action = wezterm.action_callback(function(window, pane)
 				func.switch_to_previous_workspace(window, pane)
@@ -175,25 +173,20 @@ function M.apply(config)
 				func.switch_workspace(window, pane, "writing")
 			end),
 		},
-		-- Prompt for a name to use for a new workspace and switch to it.
+		-- PANES
 		{
-			key = "n",
-			mods = "SUPER",
-			action = act.PromptInputLine({
-				description = wezterm.format({
-					{ Attribute = { Intensity = "Bold" } },
-					{ Text = "Enter name for new workspace" },
-				}),
-				action = wezterm.action_callback(function(window, pane, input)
-					-- line will be `nil` if they hit escape without entering anything
-					-- An empty string if they just hit enter
-					-- Or the actual line of text they wrote
-					if input then
-						func.switch_workspace(window, pane, input)
-					end
-				end),
-			}),
+			key = "h",
+			mods = "ALT",
+			action = act.ActivatePaneDirection("Prev"),
 		},
+		{
+			key = "l",
+			mods = "ALT",
+			action = act.ActivatePaneDirection("Next"),
+		},
+		-- COMBO
+		-- i.e, (ctrl + shift + l)
+		{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
 	}
 
 	-- KEYTABLES
