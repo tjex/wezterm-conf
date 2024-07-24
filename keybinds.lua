@@ -9,15 +9,15 @@ local M = {}
 require("events")
 
 function M.apply(config)
-	config.leader = { key = "a", mods = "ALT", timeout_milliseconds = 800 }
+	config.leader = { key = "o", mods = "ALT", timeout_milliseconds = 800 }
 
 	-- LEADER KEYBINDS
 	config.keys = {
-		-- Send "CTRL-a" to the terminal when pressing <ALT-a, CTRL-a>
+		-- Send "ALT-o" to the terminal when pressing <ALT-o, CTRL-o>
 		{
-			key = "a",
+			key = "o",
 			mods = "LEADER|CTRL",
-			action = act.SendKey({ key = "o", mods = "CTRL" }),
+			action = act.SendKey({ key = "o", mods = "ALT" }),
 		},
 		{
 			key = "b",
@@ -46,12 +46,12 @@ function M.apply(config)
 		{
 			key = "v",
 			mods = "LEADER",
-			action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+			action = act.SplitPane({ direction = "Right", size = { Percent = 33 } }),
 		},
 		{
 			key = "s",
 			mods = "LEADER",
-			action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
+			action = act.SplitPane({ direction = "Down", size = { Percent = 33 } }),
 		},
 		-- TABS
 		{
