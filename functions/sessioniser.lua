@@ -1,6 +1,5 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
-local func = require("functions.funcs")
 
 local M = {}
 
@@ -8,6 +7,7 @@ local fd = "/opt/homebrew/bin/fd"
 local lsrc = "/Users/tjex/.local/src"
 local dev = "/Users/tjex/dev"
 
+-- from https://github.com/wez/wezterm/discussions/4796
 M.open = function(window, pane)
 	local projects = {}
 	local home = os.getenv("HOME") .. "/"
@@ -16,11 +16,10 @@ M.open = function(window, pane)
 		fd,
 		"-HI",
 		"-td",
-		"--max-depth=1",
+		".git$",
+		"--max-depth=4",
 		"--prune",
-		".",
 		lsrc,
-		lsrc .. "/zk-org",
 		dev,
 		-- add more paths here
 	})
@@ -30,28 +29,17 @@ M.open = function(window, pane)
 		return
 	end
 
+	-- define variables from from file paths extractions and
 	-- fill table with results
 	for line in stdout:gmatch("([^\n]*)\n?") do
-		local project = line
+		-- create label from file path
+		local project = line:gsub("/.git/$", "")
+		project = project:gsub("/$", "")
 		local label = project:gsub(home, "")
-		local _, _, id = string.find(project, ".*/(.+)/")
 
-		-- handle git bare repositories,
-		-- assuming following name convention `myproject.git`
-		if string.match(project, "%.git/$") then
-			success, stdout, stderr =
-				wezterm.run_child_process({ fd, "-HI", "-td", "--max-depth=1", ".", project .. "worktrees" })
-			if success then
-				for wt_line in stdout:gmatch("([^\n]*)\n?") do
-					local wt_project = wt_line
-					local wt_label = wt_project:gsub(home, "")
-					local wt_id = wt_project
-					table.insert(projects, { label = tostring(wt_label), id = tostring(wt_id) })
-				end
-			else
-				wezterm.log_error("Failed to run fd for git worktree: " .. stderr)
-			end
-		end
+		-- extract id. Used for workspace name
+		local _, _, id = string.find(project, ".*/(.+)")
+		id = id:gsub(".git", "") -- bare repo dirs typically end in .git, remove if so.
 
 		table.insert(projects, { label = tostring(label), id = tostring(id) })
 	end
