@@ -15,7 +15,6 @@ M.open = function(window, pane)
 	local success, stdout, stderr = wezterm.run_child_process({
 		fd,
 		"-HI",
-		"-td",
 		".git$",
 		"--max-depth=4",
 		"--prune",
@@ -33,7 +32,7 @@ M.open = function(window, pane)
 	-- fill table with results
 	for line in stdout:gmatch("([^\n]*)\n?") do
 		-- create label from file path
-		local project = line:gsub("/.git/$", "")
+		local project = line:gsub("/.git.*", "")
 		project = project:gsub("/$", "")
 		local label = project:gsub(home, "")
 
