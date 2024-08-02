@@ -55,17 +55,12 @@ local function sys()
 end
 
 local function dev()
-	local dev_tab, dev_pane, dev_window = mux.spawn_window({
+	local dev_tab, _, dev_window = mux.spawn_window({
 		workspace = "dev",
-		cwd = "/Users/tjex/dev/websites/tjex.net/",
+		cwd = "/Users/tjex/dev/",
 	})
-	dev_pane:send_text("yarn run start\n")
-	dev_tab:set_title("website")
 
-	dev_pane:split({ direction = "Right", size = 0.666 })
-
-	local tjdev_tab = dev_window:spawn_tab({ cwd = "/Users/tjex/dev" })
-	tjdev_tab:set_title("tjex/dev")
+	dev_tab:set_title("dev")
 
 	local lsrc_tab = dev_window:spawn_tab({
 		cwd = "/Users/tjex/.local/src",
