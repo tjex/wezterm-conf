@@ -184,6 +184,11 @@ function M.apply(config)
 			mods = "ALT",
 			action = act.ActivatePaneDirection("Next"),
 		},
+		{
+			key = "r",
+			mods = "ALT",
+			action = act.RotatePanes("Clockwise"),
+		},
 		-- COMBO
 		-- i.e, (ctrl + shift + l)
 		{ key = "L", mods = "CTRL", action = wezterm.action.ShowDebugOverlay },
@@ -197,7 +202,6 @@ function M.apply(config)
 			{ key = "l", action = act.AdjustPaneSize({ "Right", 2 }) },
 			{ key = "k", action = act.AdjustPaneSize({ "Up", 2 }) },
 			{ key = "j", action = act.AdjustPaneSize({ "Down", 2 }) },
-			{ key = "r", action = act.RotatePanes("Clockwise") },
 			{
 				key = "s",
 				action = act.PaneSelect({ mode = "SwapWithActive", alphabet = "1234567890" }),
