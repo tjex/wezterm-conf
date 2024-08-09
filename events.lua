@@ -21,7 +21,7 @@ wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
 	-- Open a new window running neovim and tell it to open the file
 	window:perform_action(
 		act.SpawnCommandInNewTab({
-			args = { "nvim", name },
+			args = { "/usr/local/bin/nvim", name },
 		}),
 		pane
 	)
