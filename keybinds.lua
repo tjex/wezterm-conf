@@ -32,14 +32,13 @@ function M.apply(config)
 			action = act.ActivateCopyMode,
 		},
 		{
-			-- c for "capture"
-			key = "c",
+			key = "s",
 			mods = "LEADER",
 			action = act.EmitEvent("trigger-nvim-with-scrollback"),
 		},
 		-- PANES
 		{
-			key = "x",
+			key = "c",
 			mods = "LEADER",
 			action = act.CloseCurrentPane({ confirm = false }),
 		},
@@ -49,7 +48,7 @@ function M.apply(config)
 			action = act.SplitPane({ direction = "Right", size = { Percent = 33 } }),
 		},
 		{
-			key = "s",
+			key = "h",
 			mods = "LEADER",
 			action = act.SplitPane({ direction = "Down", size = { Percent = 33 } }),
 		},
