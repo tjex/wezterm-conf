@@ -172,6 +172,13 @@ function M.apply(config)
 				func.switch_workspace(window, pane, "writing")
 			end),
 		},
+		{
+			key = "8",
+			mods = "ALT",
+			action = wezterm.action_callback(function(window, pane)
+				func.switch_workspace(window, pane, "thesis")
+			end),
+		},
 		-- PANES
 		{
 			key = "h",
