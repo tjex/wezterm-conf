@@ -74,12 +74,27 @@ local function dev()
 end
 
 local function writing()
-	local writing_tab, writing_pane, _ = mux.spawn_window({
+	local ps_tab, ps_pane, writing_window = mux.spawn_window({
 		workspace = "writing",
 		cwd = "/Users/tjex/wikis/ps",
 	})
-	writing_tab:set_title("ps")
-	writing_pane:send_text("zk start\n")
+	ps_tab:set_title("ps")
+	ps_pane:send_text("zk start\n")
+
+	local diary_tab = writing_window:spawn_tab({
+		cwd = "/Users/tjex/wikis/diary",
+	})
+	diary_tab:set_title("diary")
+
+	local tech_tab = writing_window:spawn_tab({
+		cwd = "/Users/tjex/wikis/tech",
+	})
+	tech_tab:set_title("tech")
+
+	local lang_tab = writing_window:spawn_tab({
+		cwd = "/Users/tjex/wikis/lang",
+	})
+	lang_tab:set_title("lang")
 end
 
 function M.start(choice)

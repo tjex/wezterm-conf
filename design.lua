@@ -68,10 +68,8 @@ function M.apply(config)
 	-- FONTS
 	config.font = wezterm.font("Fira Code")
 	config.font_size = 16
-	-- for now, setting variations of 'i' is buggy with cv06 etc
-	-- https://github.com/tonsky/FiraCode/issues/1497
 	config.harfbuzz_features =
-		{ "ss01", "ss02", "ss03", "ss04", "ss05", "ss07", "cv02", "cv14", "cv27", "cv29", "cv30" }
+		{ "ss01", "ss02", "ss03", "ss04", "ss05", "ss07", "cv02", "cv05", "cv14", "cv27", "cv29", "cv30" }
 
 	-- COLORS
 	config.bold_brightens_ansi_colors = false
