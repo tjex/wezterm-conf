@@ -5,43 +5,24 @@ local M = {}
 local function admin(choice)
 	if choice == "laptop" then
 		-- define tabs
-		local admin_tab, admin_pane, admin_window = mux.spawn_window({
+		local admin_tab, admin_pane = mux.spawn_window({
 			workspace = "admin",
 			cwd = "/Users/tjex/docs/",
 		})
 
-		local rss_tab, rss_pane = admin_window:spawn_tab({})
-
-		local matrix_tab, matrix_pane = admin_window:spawn_tab({})
-
-		local music_tab = admin_window:spawn_tab({
-			cwd = "/Users/tjex/audio/atmos",
-		})
-
-		-- change layout depending on monitor choice
 		admin_tab:set_title("aerc")
 		admin_pane:send_text("aerc\n")
-		music_tab:set_title("atmos")
-
-		rss_tab:set_title("rss")
-		rss_pane:send_text("newsboat\n")
-
-		matrix_tab:set_title("matrix")
-		matrix_pane:send_text("iamb\n")
 		return
 	end
-	local admin_tab, term = mux.spawn_window({
+	local admin_tab, admin_pane = mux.spawn_window({
 		workspace = "admin",
 		cwd = "/Users/tjex/docs/",
 	})
 
 	admin_tab:set_title("aerc")
 
-	local aerc = term:split({ direction = "Right", size = 0.666 })
+	local aerc = admin_pane:split()
 	aerc:send_text("aerc\n")
-
-	local lf = aerc:split({ direction = "Right", size = 0.5 })
-	lf:send_text("lf\n")
 
 	aerc:activate()
 end

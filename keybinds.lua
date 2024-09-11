@@ -145,7 +145,7 @@ function M.apply(config)
 			end),
 		},
 		{
-			key = "2",
+			key = "1",
 			mods = "ALT",
 			action = wezterm.action_callback(function(window, pane)
 				func.switch_workspace(window, pane, "admin")

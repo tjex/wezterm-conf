@@ -69,7 +69,7 @@ function M.apply(config)
 	config.font = wezterm.font("Fira Code")
 	config.font_size = 16
 	config.harfbuzz_features =
-		{ "ss01", "ss02", "ss03", "ss04", "ss05", "ss07", "cv02", "cv05", "cv14", "cv27", "cv29", "cv30" }
+		{ "ss01", "ss02", "ss03", "ss04", "ss05", "ss07", "cv02", "cv14", "cv27", "cv29", "cv30" }
 
 	-- COLORS
 	config.bold_brightens_ansi_colors = false
