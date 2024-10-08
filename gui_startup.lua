@@ -2,34 +2,18 @@ local wezterm = require("wezterm")
 local mux = wezterm.mux
 local M = {}
 
-local function admin(choice)
-	if choice == "laptop" then
-		-- define tabs
-		local admin_tab, admin_pane = mux.spawn_window({
-			workspace = "admin",
-			cwd = "/Users/tjex/docs/",
-		})
-
-		admin_tab:set_title("aerc")
-		admin_pane:send_text("aerc\n")
-		return
-	end
-	local admin_tab, admin_pane = mux.spawn_window({
+local function admin()
+	local admin_tab = mux.spawn_window({
 		workspace = "admin",
 		cwd = "/Users/tjex/docs/",
 	})
 
-	admin_tab:set_title("aerc")
-
-	local aerc = admin_pane:split()
-	aerc:send_text("aerc\n")
-
-	aerc:activate()
+	admin_tab:set_title("admin")
 end
 
 local function sys()
 	local sys_tab = mux.spawn_window({
-		workspace = "sys",
+		workspace = "config",
 		cwd = "/Users/tjex/.config",
 	})
 	sys_tab:set_title("config")
@@ -78,9 +62,9 @@ local function writing()
 	lang_tab:set_title("lang")
 end
 
-function M.start(choice)
+function M.start()
 	wezterm.on("gui-startup", function()
-		admin(choice)
+		admin()
 		sys()
 		dev()
 		writing()

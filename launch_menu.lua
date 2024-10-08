@@ -3,8 +3,30 @@ local M = {}
 
 local env_paths = util.env_paths()
 
+local function edit_config(dir)
+	return {
+		label = "edit" .. " " .. dir,
+		cwd = "/Users/tjex/.config/" .. dir,
+		set_environment_variables = {
+			PATH = env_paths,
+		},
+		args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
+	}
+end
+
 function M.apply(config)
 	config.launch_menu = {
+		edit_config("wezterm"),
+		edit_config("nvim"),
+		edit_config("aerc"),
+		{
+			label = "edit dotfiles",
+			cwd = "/Users/tjex/.config",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
+		},
 		{
 			label = "tech wiki",
 			cwd = "/Users/tjex/wikis/tech/",
@@ -14,28 +36,20 @@ function M.apply(config)
 			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "edit .config",
-			cwd = "/Users/tjex/.config",
+			label = "lang wiki",
+			cwd = "/Users/tjex/wikis/lang/",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "edit nvim conf",
-			cwd = "/Users/tjex/.config/nvim",
-			set_environment_variables = {
-				PATH = env_paths,
-			},
-			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
-		},
-		{
-			label = "edit shell scripts",
+			label = "edit scripts",
 			cwd = "/Users/tjex/.scripts",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
-			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
+			args = { "zsh", "-c", "nvim $(fd -t f -E apple | fzf)" },
 		},
 		{
 			label = "edit navi files",
@@ -43,8 +57,16 @@ function M.apply(config)
 			set_environment_variables = {
 				PATH = env_paths,
 			},
-			-- for some reason, this command needs to be explicityly cd'd into?
+			-- for some reason, this folder needs to be explicityly cd'd into?
 			args = { "zsh", "-c", "cd /Users/tjex/.local/share/navi && nvim $(fd -t f | fzf)" },
+		},
+		{
+			label = "launch aerc",
+			cwd = "/Usrs/tjex/docs",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", "aerc" },
 		},
 	}
 end

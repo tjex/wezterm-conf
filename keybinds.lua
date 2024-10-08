@@ -155,7 +155,7 @@ function M.apply(config)
 			key = "4",
 			mods = "ALT",
 			action = wezterm.action_callback(function(window, pane)
-				func.switch_workspace(window, pane, "sys")
+				func.switch_workspace(window, pane, "config")
 			end),
 		},
 		{
