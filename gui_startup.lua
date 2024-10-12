@@ -46,11 +46,6 @@ local function writing()
 	ps_tab:set_title("ps")
 	ps_pane:send_text("zk start\n")
 
-	local diary_tab = writing_window:spawn_tab({
-		cwd = "/Users/tjex/wikis/diary",
-	})
-	diary_tab:set_title("diary")
-
 	local tech_tab = writing_window:spawn_tab({
 		cwd = "/Users/tjex/wikis/tech",
 	})

@@ -130,7 +130,7 @@ function M.apply(config)
 					-- An empty string if they just hit enter
 					-- Or the actual line of text they wrote
 					if input then
-						func.switch_workspace(window, pane, input)
+						func.new_scratch_workspace(window, pane, input)
 					end
 				end),
 			}),

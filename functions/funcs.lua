@@ -32,6 +32,34 @@ M.kill_workspace = function(window, pane, workspace)
 	end
 end
 
+M.new_scratch_workspace = function(window, pane, workspace)
+	local current_workspace = window:active_workspace()
+	if current_workspace == workspace then
+		return
+	end
+
+	-- check if workspace exists
+	local new_workspace = util.home .. "/scratch/" .. workspace
+	if util.dir_exists(new_workspace) then
+		-- display a warning here to the user
+		wezterm.log_warn("Creating new scratch workspace:", new_workspace, "already exists.")
+		return
+	end
+
+	os.execute("mkdir " .. new_workspace)
+
+	wezterm.log_error(new_workspace)
+	window:perform_action(
+		act.SwitchToWorkspace({
+			name = workspace,
+			spawn = { cwd = new_workspace },
+		}),
+		pane
+	)
+
+	wezterm.GLOBAL.previous_workspace = current_workspace
+end
+
 M.switch_workspace = function(window, pane, workspace)
 	local current_workspace = window:active_workspace()
 	if current_workspace == workspace then

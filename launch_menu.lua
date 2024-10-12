@@ -20,7 +20,7 @@ function M.apply(config)
 		edit_config("nvim"),
 		edit_config("aerc"),
 		{
-			label = "edit dotfiles",
+			label = "dotfiles",
 			cwd = "/Users/tjex/.config",
 			set_environment_variables = {
 				PATH = env_paths,
@@ -44,7 +44,7 @@ function M.apply(config)
 			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "edit scripts",
+			label = "scripts",
 			cwd = "/Users/tjex/.scripts",
 			set_environment_variables = {
 				PATH = env_paths,
@@ -52,7 +52,7 @@ function M.apply(config)
 			args = { "zsh", "-c", "nvim $(fd -t f -E apple | fzf)" },
 		},
 		{
-			label = "edit navi files",
+			label = "navi",
 			cwd = "/Usrs/tjex/.local/share/navi",
 			set_environment_variables = {
 				PATH = env_paths,
@@ -61,12 +61,20 @@ function M.apply(config)
 			args = { "zsh", "-c", "cd /Users/tjex/.local/share/navi && nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "launch aerc",
+			label = "email",
 			cwd = "/Usrs/tjex/docs",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "-l", "aerc" },
+		},
+		{
+			label = "diary",
+			cwd = "/Usrs/tjex/wikis/diary",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", "cd /Users/tjex/wikis/diary && zk daily" },
 		},
 	}
 end

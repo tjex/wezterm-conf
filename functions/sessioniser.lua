@@ -24,7 +24,7 @@ M.open = function(window, pane)
 	})
 
 	if not success then
-		wezterm.log_error("Failed to run fd: " .. stderr)
+		wezterm.log_error("Sessionizera: failed to run fd. " .. stderr)
 		return
 	end
 
@@ -49,9 +49,8 @@ M.open = function(window, pane)
 		act.InputSelector({
 			action = wezterm.action_callback(function(win, _, id, label)
 				if not id and not label then
-					wezterm.log_info("Cancelled")
+					return
 				else
-					wezterm.log_info("Selected " .. label)
 					win:perform_action(
 						act.SwitchToWorkspace({
 							name = id,
