@@ -6,10 +6,12 @@ local M = {}
 local fd = "/opt/homebrew/bin/fd"
 local lsrc = "/Users/tjex/.local/src"
 local dev = "/Users/tjex/dev"
+local projects = "/Users/tjex/projects"
+local scratch = "/Users/tjex/scratch/"
 
 -- from https://github.com/wez/wezterm/discussions/4796
 M.open = function(window, pane)
-	local projects = {}
+	local repos = {}
 	local home = os.getenv("HOME") .. "/"
 
 	local success, stdout, stderr = wezterm.run_child_process({
@@ -20,6 +22,8 @@ M.open = function(window, pane)
 		"--prune",
 		lsrc,
 		dev,
+		projects,
+		scratch,
 		-- add more paths here
 	})
 
@@ -40,7 +44,7 @@ M.open = function(window, pane)
 		local _, _, id = string.find(project, ".*/(.+)")
 		id = id:gsub(".git", "") -- bare repo dirs typically end in .git, remove if so.
 
-		table.insert(projects, { label = tostring(label), id = tostring(id) })
+		table.insert(repos, { label = tostring(label), id = tostring(id) })
 	end
 
 	-- update previous_workspace before changing to new workspace.
@@ -62,7 +66,7 @@ M.open = function(window, pane)
 			end),
 			fuzzy = true,
 			title = "Select project",
-			choices = projects,
+			choices = repos,
 		}),
 		pane
 	)

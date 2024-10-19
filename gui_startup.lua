@@ -22,18 +22,12 @@ end
 local function dev()
 	local dev_tab, _, dev_window = mux.spawn_window({
 		workspace = "dev",
-		cwd = "/Users/tjex/dev/",
-	})
-
-	dev_tab:set_title("dev")
-
-	local lsrc_tab = dev_window:spawn_tab({
 		cwd = "/Users/tjex/.local/src",
 	})
-	lsrc_tab:set_title(".local/src")
+	dev_tab:set_title("dev")
 
 	local zkorg_tab = dev_window:spawn_tab({
-		cwd = "/Users/tjex/.local/src/zk-org/",
+		cwd = "/Users/tjex/projects/zk-org/",
 	})
 	zkorg_tab:set_title("zk-org")
 end
