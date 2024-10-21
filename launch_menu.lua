@@ -20,6 +20,22 @@ function M.apply(config)
 		edit_config("nvim"),
 		edit_config("aerc"),
 		{
+			label = "daily log",
+			cwd = "/Users/tjex/docs/logs/daily",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", "nvim 04.txt" },
+		},
+		{
+			label = "diary",
+			cwd = "/Users/tjex/wikis/diary",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", "zk daily" },
+		},
+		{
 			label = "dotfiles",
 			cwd = "/Users/tjex/.config",
 			set_environment_variables = {
@@ -67,14 +83,6 @@ function M.apply(config)
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "-l", "aerc" },
-		},
-		{
-			label = "diary",
-			cwd = "/Usrs/tjex/wikis/diary",
-			set_environment_variables = {
-				PATH = env_paths,
-			},
-			args = { "zsh", "-c", "-l", "cd /Users/tjex/wikis/diary && zk daily" },
 		},
 	}
 end
