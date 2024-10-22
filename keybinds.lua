@@ -3,8 +3,6 @@ local func = require("functions.funcs")
 local sessioniser = require("functions.sessioniser")
 local wezterm = require("wezterm")
 local act = wezterm.action
-local util = require("util")
-local env_paths = util.env_paths()
 
 local M = {}
 

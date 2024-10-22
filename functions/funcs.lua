@@ -1,3 +1,4 @@
+local paths = require("paths")
 local util = require("util")
 local wezterm = require("wezterm")
 local act = wezterm.action
@@ -39,7 +40,7 @@ M.new_scratch_workspace = function(window, pane, workspace)
 	end
 
 	-- check if workspace exists
-	local new_workspace = util.home .. "/scratch/" .. workspace
+	local new_workspace = paths.home() .. "/scratch/" .. workspace
 	if util.dir_exists(new_workspace) then
 		-- display a warning here to the user
 		wezterm.log_warn("Creating new scratch workspace:", new_workspace, "already exists.")

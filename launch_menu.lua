@@ -1,7 +1,9 @@
-local util = require("util")
+local paths = require("paths")
 local M = {}
 
-local env_paths = util.env_paths()
+local tjex_site = paths.tjex_site()
+local home = paths.home()
+local env_paths = paths.env_paths()
 
 local function edit_config(dir)
 	return {
@@ -20,40 +22,56 @@ function M.apply(config)
 		edit_config("nvim"),
 		edit_config("aerc"),
 		{
-			label = "daily log",
-			cwd = "/Users/tjex/docs/logs/daily",
+			label = "log",
+			cwd = tjex_site .. "/src/content",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
-			args = { "zsh", "-c", "-l", "nvim 04.txt" },
+			args = { "zsh", "-c", "-l", "zk log" },
 		},
 		{
 			label = "diary",
-			cwd = "/Users/tjex/wikis/diary",
+			cwd = home .. "/wikis/diary",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "-l", "zk daily" },
 		},
 		{
+			label = "post",
+			cwd = tjex_site .. "/src/content",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", 'read "var?Enter topic: " && zk post "${var}"' },
+		},
+		{
+			label = "email",
+			cwd = "/Usrs/tjex/docs",
+			set_environment_variables = {
+				PATH = env_paths,
+			},
+			args = { "zsh", "-c", "-l", "aerc" },
+		},
+		{
 			label = "dotfiles",
-			cwd = "/Users/tjex/.config",
+			cwd = home .. "/.config",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "tech wiki",
-			cwd = "/Users/tjex/wikis/tech/",
+			label = "wiki tech",
+			cwd = home .. "/wikis/tech/",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
 			args = { "zsh", "-c", "nvim $(fd -t f | fzf)" },
 		},
 		{
-			label = "lang wiki",
-			cwd = "/Users/tjex/wikis/lang/",
+			label = "wiki lang",
+			cwd = home .. "/wikis/lang/",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
@@ -61,7 +79,7 @@ function M.apply(config)
 		},
 		{
 			label = "scripts",
-			cwd = "/Users/tjex/.scripts",
+			cwd = home .. "/.scripts",
 			set_environment_variables = {
 				PATH = env_paths,
 			},
@@ -75,14 +93,6 @@ function M.apply(config)
 			},
 			-- for some reason, this folder needs to be explicityly cd'd into?
 			args = { "zsh", "-c", "cd /Users/tjex/.local/share/navi && nvim $(fd -t f | fzf)" },
-		},
-		{
-			label = "email",
-			cwd = "/Usrs/tjex/docs",
-			set_environment_variables = {
-				PATH = env_paths,
-			},
-			args = { "zsh", "-c", "-l", "aerc" },
 		},
 	}
 end

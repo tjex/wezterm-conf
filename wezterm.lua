@@ -11,6 +11,12 @@ local status = require("status")
 -- This table will hold the configuration.
 local config = wezterm.config_builder()
 
+config.set_environment_variables = {
+	-- prepend the path to your utility and include the rest of the PATH
+	PATH = wezterm.home_dir .. os.getenv("PATH"),
+	TJEX_SITE = os.getenv("TJEX_SITE"),
+}
+
 config = {
 	unix_domains = {
 		{
